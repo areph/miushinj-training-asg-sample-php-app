@@ -1,22 +1,139 @@
-<?php
-header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
-?>
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-  <title>EC2 Auto Scaling Test</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Amazon EC2 InstanceA</title>
+  <link rel="stylesheet" href="css/screen.css" type="text/css" media="screen" title="default" />
+
 </head>
 
-<body class="font-sans text-lg">
-  <div class="container mx-auto m-10">
-    <div class="bg-slate-300 p-10 rounded-lg">
-      <?php include("show-instance.php"); ?>
-    </div>
-  </div>
+<body>
 
+
+  <div id="content-outer">
+    <!-- start content -->
+    <center>
+      <div id="content">
+        <table border="0" width="50%" cellpadding="0" cellspacing="0" id="content-table">
+          <tr>
+            <th class="topleft"></th>
+            <td id="tbl-border-top">&nbsp;</td>
+            <th class="topright"></th>
+          </tr>
+          <tr>
+            <td id="tbl-border-left"></td>
+            <td>
+              <!--  start content-table-inner ...................................................................... START -->
+              <div id="content-table-inner">
+
+                <!--  start table-content  -->
+                <div id="table-content">
+
+                  <?php
+
+                  $ch = curl_init();
+
+                  // Get our IMDSv2 Token
+                  $headers = array('X-aws-ec2-metadata-token-ttl-seconds: 10');
+                  $url = "http://169.254.169.254/latest/api/token";
+
+                  curl_setopt($ch, CURLOPT_URL, $url);
+                  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+                  curl_setopt($ch, CURLOPT_URL, $url);
+
+                  $token = curl_exec($ch);
+
+                  // Get and set the instance-id var
+                  $headers = array('X-aws-ec2-metadata-token: ' . $token);
+                  $url = "http://169.254.169.254/latest/meta-data/instance-id";
+
+                  curl_setopt($ch, CURLOPT_URL, $url);
+                  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+                  $instance_id = curl_exec($ch);
+
+                  // Get and set the zone var
+                  $headers = array('X-aws-ec2-metadata-token: ' . $token);
+                  $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
+
+                  curl_setopt($ch, CURLOPT_URL, $url);
+                  curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+
+                  $zone = curl_exec($ch);
+
+                  ?>
+
+
+
+                  <center>
+                    <br />
+                    <br />
+                    <h2>EC2 Instance ID:
+                      <?php echo $instance_id; ?>
+                    </h2>
+                    <h2>Zone:
+                      <?php echo $zone; ?>
+                    </h2>
+                    <!--
+<?php
+# Include RDS configuration
+include 'rds.conf.php';
+if ($RDS_URL == "") {
+  # RDS not configured, so show load generation info
+  # Get the instance CPU Load
+  echo "<h3>CPU Load: ";
+  include 'getcpuload.php';
+  echo "</h3></br></br>";
+
+  # Get the instance CPU Load Generation form
+  include 'putcpuload.php';
+
+  # Check to see if genload session variable has been set, if so, refresh periodically
+  session_start();
+  if (isset($_SESSION['genload']))
+    echo "<meta http-equiv=\"refresh\" content=\"5\" />";
+}
+?>
+-->
+
+
+                  </center>
+
+
+
+
+                </div>
+                <!--  end table-content  -->
+
+                <div class="clear"></div>
+
+              </div>
+              <!--  end content-table-inner ............................................END  -->
+            </td>
+            <td id="tbl-border-right"></td>
+          </tr>
+          <tr>
+            <th class="sized bottomleft"></th>
+            <td id="tbl-border-bottom">&nbsp;</td>
+            <th class="sized bottomright"></th>
+          </tr>
+        </table>
+        <div class="clear">&nbsp;</div>
+
+      </div>
+    </center>
+    <!--  end content -->
+    <div class="clear">&nbsp;</div>
+  </div>
+  <!--  end content-outer........................................................END -->
+
+  <div class="clear">&nbsp;</div>
 </body>
 
 </html>
