@@ -1,14 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<?php
+header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+?>
+<!DOCTYPE html>
+<html>
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title>Amazon EC2 Instance</title>
+  <title>EC2 Auto Scaling Test</title>
 </head>
 
 <body>
-
-
   <div id="content-outer">
     <center>
       <div id="content">
@@ -80,7 +82,6 @@
           </tr>
         </table>
         <div class="clear">&nbsp;</div>
-
       </div>
     </center>
     <div class="clear">&nbsp;</div>
