@@ -3,16 +3,13 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title>Amazon EC2 InstanceA</title>
-  <link rel="stylesheet" href="css/screen.css" type="text/css" media="screen" title="default" />
-
+  <title>Amazon EC2 Instance</title>
 </head>
 
 <body>
 
 
   <div id="content-outer">
-    <!-- start content -->
     <center>
       <div id="content">
         <table border="0" width="50%" cellpadding="0" cellspacing="0" id="content-table">
@@ -24,12 +21,8 @@
           <tr>
             <td id="tbl-border-left"></td>
             <td>
-              <!--  start content-table-inner ...................................................................... START -->
               <div id="content-table-inner">
-
-                <!--  start table-content  -->
                 <div id="table-content">
-
                   <?php
 
                   $ch = curl_init();
@@ -45,8 +38,6 @@
                   curl_setopt($ch, CURLOPT_URL, $url);
 
                   $token = curl_exec($ch);
-
-                  // Get and set the instance-id var
                   $headers = array('X-aws-ec2-metadata-token: ' . $token);
                   $url = "http://169.254.169.254/latest/meta-data/instance-id";
 
@@ -56,7 +47,6 @@
                   curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
                   $instance_id = curl_exec($ch);
 
-                  // Get and set the zone var
                   $headers = array('X-aws-ec2-metadata-token: ' . $token);
                   $url = "http://169.254.169.254/latest/meta-data/placement/availability-zone";
 
@@ -66,11 +56,7 @@
                   curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
 
                   $zone = curl_exec($ch);
-
                   ?>
-
-
-
                   <center>
                     <br />
                     <br />
@@ -80,41 +66,10 @@
                     <h2>Zone:
                       <?php echo $zone; ?>
                     </h2>
-                    <!--
-<?php
-# Include RDS configuration
-include 'rds.conf.php';
-if ($RDS_URL == "") {
-  # RDS not configured, so show load generation info
-  # Get the instance CPU Load
-  echo "<h3>CPU Load: ";
-  include 'getcpuload.php';
-  echo "</h3></br></br>";
-
-  # Get the instance CPU Load Generation form
-  include 'putcpuload.php';
-
-  # Check to see if genload session variable has been set, if so, refresh periodically
-  session_start();
-  if (isset($_SESSION['genload']))
-    echo "<meta http-equiv=\"refresh\" content=\"5\" />";
-}
-?>
--->
-
-
                   </center>
-
-
-
-
                 </div>
-                <!--  end table-content  -->
-
                 <div class="clear"></div>
-
               </div>
-              <!--  end content-table-inner ............................................END  -->
             </td>
             <td id="tbl-border-right"></td>
           </tr>
@@ -128,11 +83,8 @@ if ($RDS_URL == "") {
 
       </div>
     </center>
-    <!--  end content -->
     <div class="clear">&nbsp;</div>
   </div>
-  <!--  end content-outer........................................................END -->
-
   <div class="clear">&nbsp;</div>
 </body>
 
